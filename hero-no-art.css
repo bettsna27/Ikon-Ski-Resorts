@@ -1,4 +1,8 @@
-/* Remove the decorative mountain illustration from the hero and let the copy use the full width. */
-.hero{display:block;height:auto;min-height:0;padding:clamp(42px,8vw,90px) 0}
+/* Center the hero copy within the space formerly occupied by the mountain artwork. */
+.hero{display:flex;align-items:center;justify-content:center;min-height:clamp(380px,52vw,560px);padding:clamp(48px,8vw,88px) 0;text-align:center}
+.hero-copy{width:min(100%,760px);max-width:760px;padding:0;margin:0 auto}
+.hero .eyebrow,.hero .updated{justify-content:center}
+.hero h1{margin-left:auto;margin-right:auto}
+.hero .intro{margin-left:auto;margin-right:auto}
 .hero-art{display:none!important}
-.hero-copy{max-width:760px}
+@media(max-width:600px){.hero{min-height:380px;padding:44px 0}.hero-copy{padding:0;text-align:center}}
