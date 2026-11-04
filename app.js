@@ -1,10 +1,10 @@
 const resorts = [
-  { name: 'Arapahoe Basin', short: 'A-BASIN', elevation: '10,780 ft base', lat: 39.6425, lon: -105.8717, ikon: 'Unlimited access', report: 'https://www.arapahoebasin.com/snow-report/', map: 'https://www.google.com/maps/search/?api=1&query=Arapahoe+Basin+Colorado', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Arapahoe_Basin_Colorado.JPG/1920px-Arapahoe_Basin_Colorado.JPG', photoSource: 'https://commons.wikimedia.org/wiki/File:Arapahoe_Basin_Colorado.JPG' },
-  { name: 'Aspen Snowmass', short: 'ASPEN SNOWMASS', elevation: '8,104 ft base', lat: 39.2084, lon: -106.9490, ikon: 'Limited days · 4 mountains', report: 'https://www.aspensnowmass.com/our-mountains/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Aspen+Snowmass+Colorado', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Aspen_Snowmass_-_panoramio.jpg/1920px-Aspen_Snowmass_-_panoramio.jpg', photoSource: 'https://commons.wikimedia.org/wiki/File:Aspen_Snowmass_-_panoramio.jpg' },
-  { name: 'Copper Mountain', short: 'COPPER', elevation: '9,712 ft base', lat: 39.5022, lon: -106.1511, ikon: 'Unlimited access', report: 'https://www.coppercolorado.com/the-mountain/conditions-weather/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Copper+Mountain+Colorado', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Copper_Mountain_Ski_Area.JPG/1920px-Copper_Mountain_Ski_Area.JPG', photoSource: 'https://commons.wikimedia.org/wiki/File:Copper_Mountain_Ski_Area.JPG' },
-  { name: 'Eldora Mountain', short: 'ELDORA', elevation: '9,200 ft base', lat: 39.9370, lon: -105.5829, ikon: 'Unlimited access', report: 'https://www.eldora.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Eldora+Mountain+Colorado', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Eldora_Mountain_Resort.jpg/1920px-Eldora_Mountain_Resort.jpg', photoSource: 'https://commons.wikimedia.org/wiki/File:Eldora_Mountain_Resort.jpg' },
-  { name: 'Steamboat', short: 'STEAMBOAT', elevation: '6,900 ft base', lat: 40.4572, lon: -106.8045, ikon: 'Limited days', report: 'https://www.steamboat.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Steamboat+Ski+Resort+Colorado', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Steamboat_Ski_Resort%2C_Colorado-5334.jpg/1920px-Steamboat_Ski_Resort%2C_Colorado-5334.jpg', photoSource: 'https://commons.wikimedia.org/wiki/File:Steamboat_Ski_Resort,_Colorado-5334.jpg' },
-  { name: 'Winter Park', short: 'WINTER PARK', elevation: '9,000 ft base', lat: 39.8868, lon: -105.7625, ikon: 'Unlimited access', report: 'https://www.winterparkresort.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Winter+Park+Resort+Colorado', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Winter_Park_Ski_Area_from_a_beaver_pond.jpg/1920px-Winter_Park_Ski_Area_from_a_beaver_pond.jpg', photoSource: 'https://commons.wikimedia.org/wiki/File:Winter_Park_Ski_Area_from_a_beaver_pond.jpg' }
+  { name: 'Arapahoe Basin', short: 'A-BASIN', elevation: '10,780 ft base', lat: 39.6425, lon: -105.8717, ikon: 'Unlimited access', report: 'https://www.arapahoebasin.com/snow-report/', map: 'https://www.google.com/maps/search/?api=1&query=Arapahoe+Basin+Colorado' },
+  { name: 'Aspen Snowmass', short: 'ASPEN SNOWMASS', elevation: '8,104 ft base', lat: 39.2084, lon: -106.9490, ikon: 'Limited days · 4 mountains', report: 'https://www.aspensnowmass.com/our-mountains/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Aspen+Snowmass+Colorado' },
+  { name: 'Copper Mountain', short: 'COPPER', elevation: '9,712 ft base', lat: 39.5022, lon: -106.1511, ikon: 'Unlimited access', report: 'https://www.coppercolorado.com/the-mountain/conditions-weather/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Copper+Mountain+Colorado' },
+  { name: 'Eldora Mountain', short: 'ELDORA', elevation: '9,200 ft base', lat: 39.9370, lon: -105.5829, ikon: 'Unlimited access', report: 'https://www.eldora.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Eldora+Mountain+Colorado' },
+  { name: 'Steamboat', short: 'STEAMBOAT', elevation: '6,900 ft base', lat: 40.4572, lon: -106.8045, ikon: 'Limited days', report: 'https://www.steamboat.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Steamboat+Ski+Resort+Colorado' },
+  { name: 'Winter Park', short: 'WINTER PARK', elevation: '9,000 ft base', lat: 39.8868, lon: -105.7625, ikon: 'Unlimited access', report: 'https://www.winterparkresort.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Winter+Park+Resort+Colorado' }
 ];
 
 const tablist = document.querySelector('#resort-tabs');
@@ -52,12 +52,7 @@ function renderPanel(resort, weather) {
   const temperatureText = Number.isFinite(temperature) ? `${Math.round(temperature)}°F` : 'Unavailable';
 
   panel.setAttribute('aria-labelledby', `tab-${slug(resort.name)}`);
-  panel.innerHTML = `<figure class="resort-photo-wrap">
-      <img class="resort-photo" src="${resort.photo}" alt="Mountain view at ${resort.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true;this.parentElement.classList.add('photo-unavailable')">
-      <figcaption class="photo-credit">${resort.name} · <a href="${resort.photoSource}" target="_blank" rel="noreferrer">Photo source &amp; license</a></figcaption>
-      <span class="photo-label">MOUNTAIN VIEW · STILL PHOTO</span>
-    </figure>
-    <div class="detail-header">
+  panel.innerHTML = `<div class="detail-header">
       <div><span class="resort-tag">${resort.short}</span><h3>${resort.name}</h3><p class="detail-subtitle">Colorado · ${resort.elevation}</p></div>
       <span class="detail-pass-tag">${resort.ikon}</span>
     </div>
