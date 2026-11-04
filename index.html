@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102b32">
-  <meta name="description" content="A Colorado Ikon Pass dashboard for mountain weather, seven-day snowfall forecasts, and resort information.">
-  <title>Colorado Ikon Conditions</title>
+  <meta name="description" content="Seven-day snow forecasts and mountain condition links for the 10 Ikon Pass resorts closest to Colorado State University in Fort Collins.">
+  <title>Colorado Ikon Conditions · Closest to CSU</title>
   <link rel="preconnect" href="https://api.open-meteo.com">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="resort-tabs.css">
   <link rel="stylesheet" href="mountain-theme.css">
-  <link rel="stylesheet" href="resort-photos.css">
-  <script src="app.js?v=static-mountain-photos-2" defer></script>
+  <link rel="stylesheet" href="resort-distance.css">
+  <script src="app.js?v=csu-top-10-1" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -22,30 +22,30 @@
   <main id="top">
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="live-dot"></span> COLORADO MOUNTAIN REPORT</p>
+        <p class="eyebrow"><span class="live-dot"></span> FORT COLLINS · COLORADO</p>
         <h1>Find your<br><span>next snow day.</span></h1>
-        <p class="intro">Explore Colorado's Ikon Pass mountains one at a time: get the forecast, resort details, and a direct link to each mountain report.</p>
+        <p class="intro">Snow forecasts and resort conditions for the 10 Ikon Pass mountains closest to Colorado State University.</p>
         <p class="updated">WEATHER FORECASTS REFRESH WHEN YOU OPEN THIS PAGE <span id="updated-at"></span></p>
       </div>
-      <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="ridge ridge-back"></div><div class="ridge ridge-front"></div><div class="ridge-snow"></div><span class="art-label">39° 11′ N<br>COLORADO</span></div>
+      <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="ridge ridge-back"></div><div class="ridge ridge-front"></div><div class="ridge-snow"></div><span class="art-label">CSU · FORT COLLINS<br>COLORADO</span></div>
     </section>
 
     <section class="toolbar" aria-label="Resort selection">
-      <div><p class="section-kicker">THE LINEUP</p><h2>Explore a resort <span id="resort-count"></span></h2></div>
+      <div><p class="section-kicker">THE LINEUP · CLOSEST FIRST</p><h2>Ikon resorts <span id="resort-count"></span></h2></div>
       <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Find a mountain" aria-label="Search resorts"></label>
     </section>
 
-    <div class="data-note"><span class="note-icon">i</span><p><strong>Forecast data:</strong> Seven-day snowfall and current snow depth are Open-Meteo weather-model estimates for each resort's base area, not official mountain measurements. Mountain photos are static images, not live webcams; credit and license details are linked on each photo.</p></div>
+    <div class="data-note"><span class="note-icon">i</span><p><strong>About distances and snow data:</strong> Resorts are ordered by approximate driving distance from CSU; miles are estimates and routes, traffic, and winter road conditions can change travel times. Snowfall and base depth are Open-Meteo model estimates, not official mountain measurements. Ikon access varies by pass type. Use each resort's official report for live lift and trail status.</p></div>
 
     <section class="resort-explorer" aria-label="Resort details">
-      <div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="Colorado Ikon resorts" aria-orientation="horizontal"></div>
+      <div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="10 Ikon resorts closest to CSU Fort Collins" aria-orientation="horizontal"></div>
       <section id="resort-panel" class="resort-panel" role="tabpanel" aria-live="polite" aria-busy="true">
-        <div class="loading-card">Loading Colorado mountain forecasts<span class="loading-dots">...</span></div>
+        <div class="loading-card">Loading resort forecasts<span class="loading-dots">...</span></div>
       </section>
       <p id="empty-state" class="empty-state" hidden>No resorts match that search. Try another name.</p>
     </section>
 
-    <section class="how-it-works"><div><p class="section-kicker">FRESH ON EVERY VISIT</p><h2>Forecast first.<br>Mountain report next.</h2></div><p>Each time you open the page, it requests a fresh seven-day forecast from Open-Meteo. Choose a resort tab to see its forecast, mountain photo, base-area details, map, and official mountain report.</p></section>
+    <section class="how-it-works"><div><p class="section-kicker">FRESH ON EVERY VISIT</p><h2>Plan your next<br>mountain day.</h2></div><p>Choose a resort tab for a seven-day snowfall forecast, estimated base-area conditions, approximate drive distance from CSU, and a link to the resort's official mountain report.</p></section>
   </main>
 
   <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a><span>Independent conditions guide · Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a></span><a href="#top">BACK TO TOP ↑</a></footer>
