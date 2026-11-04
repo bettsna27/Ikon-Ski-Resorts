@@ -9,12 +9,13 @@
   <link rel="preconnect" href="https://api.open-meteo.com">
   <link rel="preconnect" href="https://nominatim.openstreetmap.org">
   <link rel="preconnect" href="https://router.project-osrm.org">
+  <link rel="preconnect" href="https://images.rawpixel.com">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="resort-tabs.css">
   <link rel="stylesheet" href="mountain-theme.css">
   <link rel="stylesheet" href="resort-distance.css">
   <link rel="stylesheet" href="ikon-directory.css">
-  <link rel="stylesheet" href="hero-no-art.css">
+  <link rel="stylesheet" href="hero-photo.css?v=1">
   <script src="app.js?v=colorado-resort-forecasts-2" defer></script>
   <script src="ikon-base-directory.js?v=base-pass-regions-1" defer></script>
 </head>
@@ -24,12 +25,38 @@
     <a class="pass-link" href="https://www.ikonpass.com/en/destinations" target="_blank" rel="noreferrer">IKON DESTINATIONS <span aria-hidden="true">↗</span></a>
   </header>
   <main id="top">
-    <section class="hero"><div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span> IKON BASE PASS · COLORADO</p><h1>Find your<br><span>next snow day.</span></h1><p class="intro">Colorado Ikon Base Pass resort forecasts, estimated drive times, and official mountain reports.</p><p class="updated">WEATHER FORECASTS REFRESH WHEN YOU OPEN THIS PAGE <span id="updated-at"></span></p></div></section>
-    <section class="toolbar" aria-label="Resort selection"><div><p class="section-kicker">COLORADO · IKON BASE PASS</p><h2>Colorado resorts <span id="resort-count"></span></h2></div><label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Find a Colorado resort" aria-label="Search Colorado resorts"></label></section>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> IKON BASE PASS · COLORADO</p>
+        <h1>Find your<br><span>next snow day.</span></h1>
+        <p class="intro">Colorado Ikon Base Pass resort forecasts, estimated drive times, and official mountain reports.</p>
+        <p class="updated">WEATHER FORECASTS REFRESH WHEN YOU OPEN THIS PAGE <span id="updated-at"></span></p>
+      </div>
+      <div class="hero-art"><img src="https://images.rawpixel.com/image_4910/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy9DYXJvbF9NLl9IaWdoc21pdGhfUFVCTElDX0RPTUFJTl9JTUFHRVMvdjkxMC1jYXJvbC1tLWhpZ2hzbWl0aC1zbm93bWFzcy1jb2xvcmFkby1jaGFpcmxpZnQuanBn.jpg" alt="Chairlifts ascending a snowy mountain at Snowmass, Colorado" fetchpriority="high"></div>
+    </section>
+    <section class="toolbar" aria-label="Resort selection">
+      <div><p class="section-kicker">COLORADO · IKON BASE PASS</p><h2>Colorado resorts <span id="resort-count"></span></h2></div>
+      <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Find a Colorado resort" aria-label="Search Colorado resorts"></label>
+    </section>
     <div class="data-note"><span class="note-icon">i</span><p><strong>About forecasts and pass access:</strong> The conditions below cover the six Colorado destinations listed for Ikon Base Pass: Arapahoe Basin, Aspen Snowmass (Snowmass only), Copper Mountain, Eldora, Steamboat, and Winter Park. Pass-day limits and blackout dates may apply. Weather information is a model estimate; use official resort reports for current operations.</p></div>
-    <section class="origin-picker" aria-labelledby="origin-heading"><div class="origin-copy"><p class="section-kicker">YOUR STARTING POINT</p><h2 id="origin-heading">Where are you driving from?</h2><p>Enter a city, address, or ZIP code—or use your device location—to see estimated road distance and drive time to each Colorado resort.</p></div><form id="origin-form" class="origin-form"><label class="visually-hidden" for="origin-input">City, address, or ZIP code</label><input id="origin-input" name="origin" type="text" placeholder="City, address, or ZIP code" autocomplete="street-address"><button class="origin-submit" type="submit">UPDATE ROUTES</button><button id="use-location" class="origin-location" type="button">USE MY LOCATION</button></form><p id="origin-status" class="origin-status" role="status" aria-live="polite">Showing approximate distances and drive times from CSU Fort Collins.</p></section>
-    <section class="resort-explorer" aria-label="Colorado resort forecasts"><div class="toolbar"><div><p class="section-kicker">COLORADO · FORECASTS</p><h2 id="local-conditions-heading">Colorado resort forecasts</h2></div></div><div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="Colorado resorts" aria-orientation="horizontal"></div><section id="resort-panel" class="resort-panel" role="tabpanel" aria-live="polite" aria-busy="true"><div class="loading-card">Loading Colorado resort forecasts<span class="loading-dots">...</span></div></section><p id="empty-state" class="empty-state" hidden>No resorts match that search. Try another name.</p></section>
-    <section class="region-directory" aria-labelledby="directory-title"><div class="directory-heading"><div><p class="section-kicker">IKON BASE PASS DESTINATIONS</p><h2 id="directory-title">Browse by region</h2></div><p id="directory-count" aria-live="polite"></p></div><p class="base-pass-note">Browse all destinations included with the Ikon Base Pass by region. Separate Bonus Mountains and resorts without Base Pass access are excluded. Resort access limits and blackout dates vary by destination and season.</p><div class="region-tabs" role="tablist" aria-label="Resort regions"><button class="region-tab" id="region-colorado" type="button" role="tab" aria-selected="true" aria-controls="ikon-directory" tabindex="0" data-region-tab="colorado">COLORADO</button><button class="region-tab" id="region-north-america" type="button" role="tab" aria-selected="false" aria-controls="ikon-directory" tabindex="-1" data-region-tab="northAmerica">NORTH AMERICA · EXCEPT COLORADO</button><button class="region-tab" id="region-international" type="button" role="tab" aria-selected="false" aria-controls="ikon-directory" tabindex="-1" data-region-tab="international">INTERNATIONAL</button></div><label class="visually-hidden" for="directory-search">Filter destinations in selected region</label><input id="directory-search" class="directory-search" type="search" placeholder="Filter destinations in this region"><div id="ikon-directory" class="ikon-directory" role="tabpanel" aria-labelledby="region-colorado"></div><p id="directory-empty" class="directory-empty" hidden>No destinations match your search.</p></section>
+    <section class="origin-picker" aria-labelledby="origin-heading">
+      <div class="origin-copy"><p class="section-kicker">YOUR STARTING POINT</p><h2 id="origin-heading">Where are you driving from?</h2><p>Enter a city, address, or ZIP code—or use your device location—to see estimated road distance and drive time to each Colorado resort.</p></div>
+      <form id="origin-form" class="origin-form"><label class="visually-hidden" for="origin-input">City, address, or ZIP code</label><input id="origin-input" name="origin" type="text" placeholder="City, address, or ZIP code" autocomplete="street-address"><button class="origin-submit" type="submit">UPDATE ROUTES</button><button id="use-location" class="origin-location" type="button">USE MY LOCATION</button></form>
+      <p id="origin-status" class="origin-status" role="status" aria-live="polite">Showing approximate distances and drive times from CSU Fort Collins.</p>
+    </section>
+    <section class="resort-explorer" aria-label="Colorado resort forecasts">
+      <div class="toolbar"><div><p class="section-kicker">COLORADO · FORECASTS</p><h2 id="local-conditions-heading">Colorado resort forecasts</h2></div></div>
+      <div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="Colorado resorts" aria-orientation="horizontal"></div>
+      <section id="resort-panel" class="resort-panel" role="tabpanel" aria-live="polite" aria-busy="true"><div class="loading-card">Loading Colorado resort forecasts<span class="loading-dots">...</span></div></section>
+      <p id="empty-state" class="empty-state" hidden>No resorts match that search. Try another name.</p>
+    </section>
+    <section class="region-directory" aria-labelledby="directory-title">
+      <div class="directory-heading"><div><p class="section-kicker">IKON BASE PASS DESTINATIONS</p><h2 id="directory-title">Browse by region</h2></div><p id="directory-count" aria-live="polite"></p></div>
+      <p class="base-pass-note">Browse all destinations included with the Ikon Base Pass by region. Separate Bonus Mountains and resorts without Base Pass access are excluded. Resort access limits and blackout dates vary by destination and season.</p>
+      <div class="region-tabs" role="tablist" aria-label="Resort regions"><button class="region-tab" id="region-colorado" type="button" role="tab" aria-selected="true" aria-controls="ikon-directory" tabindex="0" data-region-tab="colorado">COLORADO</button><button class="region-tab" id="region-north-america" type="button" role="tab" aria-selected="false" aria-controls="ikon-directory" tabindex="-1" data-region-tab="northAmerica">NORTH AMERICA · EXCEPT COLORADO</button><button class="region-tab" id="region-international" type="button" role="tab" aria-selected="false" aria-controls="ikon-directory" tabindex="-1" data-region-tab="international">INTERNATIONAL</button></div>
+      <label class="visually-hidden" for="directory-search">Filter destinations in selected region</label><input id="directory-search" class="directory-search" type="search" placeholder="Filter destinations in this region">
+      <div id="ikon-directory" class="ikon-directory" role="tabpanel" aria-labelledby="region-colorado"></div><p id="directory-empty" class="directory-empty" hidden>No destinations match your search.</p>
+    </section>
     <section class="how-it-works"><div><p class="section-kicker">FRESH ON EVERY VISIT</p><h2>Plan your next<br>mountain day.</h2></div><p>Choose from Colorado resorts for seven-day snowfall forecasts and estimated base-area conditions. Enter your starting point to see approximate driving distance and time for each resort. The regional directory below lists all Ikon Base Pass destinations.</p></section>
   </main>
   <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a><span>Independent conditions guide · Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · Routes by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a></span><a href="#top">BACK TO TOP ↑</a></footer>
