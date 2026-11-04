@@ -15,9 +15,16 @@ const tablist = document.querySelector('#resort-tabs');
 const panel = document.querySelector('#resort-panel');
 const search = document.querySelector('#search');
 const updatedAt = document.querySelector('#updated-at');
+const originInput = document.querySelector('#origin-input');
+const originForm = document.querySelector('#origin-form');
+const locationButton = document.querySelector('#use-location');
+const originStatus = document.querySelector('#origin-status');
 const formatter = new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
 let results = [];
 let selectedName = resorts[0].name;
+let routeOrigin = null;
+let routeEstimates = new Map();
+let routeRequestId = 0;
 
 function snowInches(cm) {
   return cm == null ? null : (cm / 2.54).toFixed(1);
@@ -30,6 +37,111 @@ function prettyDate(date) {
 function slug(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
+
+function formatDuration(seconds) {
+  const minutes = Math.round(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  if (hours === 0) return `~${minutes} min`;
+  return remainingMinutes === 0 ? `~${hours} hr` : `~${hours} hr ${remainingMinutes} min`;
+}
+
+function formatDistance(meters) {
+  return `~${Math.round(meters / 1609.344)} mi`;
+}
+
+async function getDrivingRoute(resort, origin) {
+  const url = `https://router.project-osrm.org/route/v1/driving/${origin.longitude},${origin.latitude};${resort.lon},${resort.lat}?overview=false`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Route request failed (${response.status})`);
+  const data = await response.json();
+  const route = data.routes?.[0];
+  if (data.code !== 'Ok' || !route) throw new Error('No driving route found');
+  return { distance: formatDistance(route.distance), driveTime: formatDuration(route.duration) };
+}
+
+async function updateRoutes(origin, label) {
+  const requestId = ++routeRequestId;
+  routeOrigin = { ...origin, label };
+  routeEstimates = new Map();
+  originStatus.textContent = `Calculating driving routes from ${label}…`;
+  originStatus.dataset.state = 'loading';
+  render();
+
+  const estimates = await Promise.all(resorts.map(async (resort) => {
+    try {
+      return [resort.name, await getDrivingRoute(resort, origin)];
+    } catch (error) {
+      console.warn(`Could not calculate route to ${resort.name}`, error);
+      return [resort.name, null];
+    }
+  }));
+  if (requestId !== routeRequestId) return;
+
+  routeEstimates = new Map(estimates);
+  const successful = estimates.filter(([, estimate]) => estimate).length;
+  originStatus.textContent = successful
+    ? `Drive estimates shown from ${label}. Routes are approximate and may vary with traffic and winter road conditions.`
+    : 'Could not calculate routes right now. Please try again later.';
+  originStatus.dataset.state = successful ? 'success' : 'error';
+  render();
+}
+
+async function geocodePlace(place) {
+  const url = new URL('https://nominatim.openstreetmap.org/search');
+  url.search = new URLSearchParams({ q: place, format: 'jsonv2', limit: '1' });
+  const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (!response.ok) throw new Error(`Location search failed (${response.status})`);
+  const places = await response.json();
+  if (!places.length) throw new Error('Location not found. Try a city, address, or ZIP code.');
+  return {
+    latitude: Number(places[0].lat),
+    longitude: Number(places[0].lon),
+    label: places[0].display_name.split(',').slice(0, 3).join(',')
+  };
+}
+
+originForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const place = originInput.value.trim();
+  if (!place) {
+    originInput.focus();
+    return;
+  }
+  originStatus.textContent = `Finding ${place}…`;
+  originStatus.dataset.state = 'loading';
+  try {
+    const location = await geocodePlace(place);
+    await updateRoutes(location, location.label);
+  } catch (error) {
+    originStatus.textContent = error.message || 'Could not find that location. Please try again.';
+    originStatus.dataset.state = 'error';
+  }
+});
+
+locationButton.addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    originStatus.textContent = 'Your browser does not support location access. Enter a city, address, or ZIP code instead.';
+    originStatus.dataset.state = 'error';
+    return;
+  }
+  locationButton.disabled = true;
+  originStatus.textContent = 'Requesting your location…';
+  originStatus.dataset.state = 'loading';
+  navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+    try {
+      await updateRoutes({ latitude: coords.latitude, longitude: coords.longitude }, 'your current location');
+    } finally {
+      locationButton.disabled = false;
+    }
+  }, (error) => {
+    locationButton.disabled = false;
+    originStatus.textContent = error.code === error.PERMISSION_DENIED
+      ? 'Location access was denied. Enter a city, address, or ZIP code instead.'
+      : 'Could not get your location. Enter a city, address, or ZIP code instead.';
+    originStatus.dataset.state = 'error';
+  }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+});
 
 function renderTabs(filtered) {
   tablist.innerHTML = filtered.map(({ resort }) => {
@@ -54,16 +166,20 @@ function renderPanel(resort, weather) {
   const totalText = weather ? `${snowInches(weeklyTotal)}"` : 'Unavailable';
   const depthText = depth && Number(depth) > 1 ? `${depth}"` : '0';
   const temperatureText = Number.isFinite(temperature) ? `${Math.round(temperature)}°F` : 'Unavailable';
+  const estimate = routeEstimates.get(resort.name);
+  const distanceText = estimate?.distance || resort.distance;
+  const driveTimeText = estimate?.driveTime || resort.driveTime;
+  const originText = routeOrigin?.label || 'Colorado State University';
 
   panel.setAttribute('aria-labelledby', `tab-${slug(resort.name)}`);
   panel.innerHTML = `<div class="detail-header">
       <div><span class="resort-tag">${resort.short}</span><h3>${resort.name}</h3><p class="detail-subtitle">${resort.location} · ${resort.elevation}</p></div>
       <span class="detail-pass-tag">${resort.ikon}</span>
     </div>
-    <p class="distance-note"><span aria-hidden="true">↗</span> From Colorado State University: <strong>${resort.distance}</strong><span class="distance-separator">·</span><strong>${resort.driveTime}</strong> drive</p>
+    <p class="distance-note"><span aria-hidden="true">↗</span> From ${originText}: <strong>${distanceText}</strong><span class="distance-separator">·</span><strong>${driveTimeText}</strong> drive</p>
     <div class="detail-overview">
       <div class="detail-stat"><span class="metric-label">NEXT 7 DAYS</span><strong>${totalText}</strong><span class="metric-caption">forecast snowfall · model estimate</span></div>
-      <div class="detail-stat"><span class="metric-label">CURRENT BASE SNOW TOTAL</span><strong>${depthText}</strong><span class="metric-caption">snowpack on ground · model estimate</span></div>
+      <div class="detail-stat"><span class="metric-label">CURRENT BASE SNOW TOTAL</span><strong>${depth && Number(depth) > 1 ? `${depth}"` : '0'}</strong><span class="metric-caption">snowpack on ground · model estimate</span></div>
       <div class="detail-stat"><span class="metric-label">CURRENT TEMPERATURE</span><strong>${temperatureText}</strong><span class="metric-caption">base-area model estimate</span></div>
     </div>
     <div class="detail-forecast-heading"><span>SEVEN-DAY SNOWFALL FORECAST</span><span>INCHES · MODEL ESTIMATE</span></div>
