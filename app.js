@@ -1,16 +1,12 @@
 const resorts = [
-  { name: 'Eldora Mountain', short: 'ELDORA', location: 'Nederland, Colorado', elevation: '9,200 ft base', distance: '~65 mi from CSU', driveTime: '~1 hr 30 min', lat: 39.9370, lon: -105.5829, ikon: 'Ikon Pass destination', report: 'https://www.eldora.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Eldora+Mountain+Colorado' },
-  { name: 'Winter Park', short: 'WINTER PARK', location: 'Winter Park, Colorado', elevation: '9,000 ft base', distance: '~100 mi from CSU', driveTime: '~2 hr', lat: 39.8868, lon: -105.7625, ikon: 'Ikon Pass destination', report: 'https://www.winterparkresort.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Winter+Park+Resort+Colorado' },
-  { name: 'Copper Mountain', short: 'COPPER', location: 'Copper Mountain, Colorado', elevation: '9,712 ft base', distance: '~130 mi from CSU', driveTime: '~2 hr 30 min', lat: 39.5022, lon: -106.1511, ikon: 'Ikon Pass destination', report: 'https://www.coppercolorado.com/the-mountain/conditions-weather/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Copper+Mountain+Colorado' },
-  { name: 'Arapahoe Basin', short: 'A-BASIN', location: 'Dillon, Colorado', elevation: '10,780 ft base', distance: '~135 mi from CSU', driveTime: '~2 hr 45 min', lat: 39.6425, lon: -105.8717, ikon: 'Ikon Pass destination', report: 'https://www.arapahoebasin.com/snow-report/#weather-and-conditions', map: 'https://www.google.com/maps/search/?api=1&query=Arapahoe+Basin+Colorado' },
-  { name: 'Steamboat', short: 'STEAMBOAT', location: 'Steamboat Springs, Colorado', elevation: '6,900 ft base', distance: '~170 mi from CSU', driveTime: '~3 hr 30 min', lat: 40.4572, lon: -106.8045, ikon: 'Ikon Pass destination', report: 'https://www.steamboat.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Steamboat+Ski+Resort+Colorado' },
-  { name: 'Aspen Snowmass', short: 'ASPEN SNOWMASS', location: 'Aspen / Snowmass Village, Colorado', elevation: '8,104 ft base', distance: '~210 mi from CSU', driveTime: '~4 hr 30 min', lat: 39.2084, lon: -106.9490, ikon: 'Ikon Pass destination · 4 mountains', report: 'https://www.aspensnowmass.com/our-mountains/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Aspen+Snowmass+Colorado' },
-  { name: 'Taos Ski Valley', short: 'TAOS', location: 'Taos Ski Valley, New Mexico', elevation: '9,207 ft base', distance: '~300 mi from CSU', driveTime: '~5 hr', lat: 36.5964, lon: -105.4481, ikon: 'Ikon Pass destination', report: 'https://www.taosski.com/mountain-report/', map: 'https://www.google.com/maps/search/?api=1&query=Taos+Ski+Valley+New+Mexico' },
-  { name: 'Jackson Hole Mountain Resort', short: 'JACKSON HOLE', location: 'Teton Village, Wyoming', elevation: '6,311 ft base', distance: '~405 mi from CSU', driveTime: '~6 hr 30 min', lat: 43.5875, lon: -110.8277, ikon: 'Ikon Pass destination', report: 'https://www.jacksonhole.com/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Jackson+Hole+Mountain+Resort' },
-  { name: 'Snowbasin', short: 'SNOWBASIN', location: 'Huntsville, Utah', elevation: '6,391 ft base', distance: '~480 mi from CSU', driveTime: '~7 hr 30 min', lat: 41.2161, lon: -111.8561, ikon: 'Ikon Pass destination', report: 'https://www.snowbasin.com/mountain-report/', map: 'https://www.google.com/maps/search/?api=1&query=Snowbasin+Utah' },
-  { name: 'Solitude Mountain Resort', short: 'SOLITUDE', location: 'Solitude, Utah', elevation: '7,994 ft base', distance: '~490 mi from CSU', driveTime: '~7 hr 45 min', lat: 40.6199, lon: -111.5919, ikon: 'Ikon Pass destination', report: 'https://www.solitudemountain.com/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Solitude+Mountain+Resort+Utah' }
+  { name: 'Eldora Mountain', short: 'ELDORA', location: 'Nederland, Colorado', elevation: '9,200 ft base', distance: '~65 mi from CSU', driveTime: '~1 hr 30 min', lat: 39.9370, lon: -105.5829, ikon: 'Ikon Base Pass · Unlimited', report: 'https://www.eldora.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Eldora+Mountain+Colorado' },
+  { name: 'Winter Park', short: 'WINTER PARK', location: 'Winter Park, Colorado', elevation: '9,000 ft base', distance: '~100 mi from CSU', driveTime: '~2 hr', lat: 39.8868, lon: -105.7625, ikon: 'Ikon Base Pass · Unlimited', report: 'https://www.winterparkresort.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Winter+Park+Resort+Colorado' },
+  { name: 'Copper Mountain', short: 'COPPER', location: 'Copper Mountain, Colorado', elevation: '9,712 ft base', distance: '~130 mi from CSU', driveTime: '~2 hr 30 min', lat: 39.5022, lon: -106.1511, ikon: 'Ikon Base Pass · Unlimited', report: 'https://www.coppercolorado.com/the-mountain/conditions-weather/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Copper+Mountain+Colorado' },
+  { name: 'Arapahoe Basin', short: 'A-BASIN', location: 'Dillon, Colorado', elevation: '10,780 ft base', distance: '~135 mi from CSU', driveTime: '~2 hr 45 min', lat: 39.6425, lon: -105.8717, ikon: 'Ikon Base Pass · Unlimited', report: 'https://www.arapahoebasin.com/snow-report/#weather-and-conditions', map: 'https://www.google.com/maps/search/?api=1&query=Arapahoe+Basin+Colorado' },
+  { name: 'Steamboat', short: 'STEAMBOAT', location: 'Steamboat Springs, Colorado', elevation: '6,900 ft base', distance: '~170 mi from CSU', driveTime: '~3 hr 30 min', lat: 40.4572, lon: -106.8045, ikon: 'Ikon Base Pass · 5 days; blackouts apply', report: 'https://www.steamboat.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Steamboat+Ski+Resort+Colorado' },
+  { name: 'Aspen Snowmass — Snowmass', short: 'SNOWMASS', location: 'Snowmass Village, Colorado', elevation: '8,104 ft base', distance: '~210 mi from CSU', driveTime: '~4 hr 30 min', lat: 39.2084, lon: -106.9490, ikon: 'Ikon Base Pass · Snowmass only; 5 days; blackouts apply', report: 'https://www.aspensnowmass.com/our-mountains/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Snowmass+Village+Colorado' }
 ];
-const DISPLAY_LIMIT = 7;
+const DISPLAY_LIMIT = resorts.length;
 
 const tablist = document.querySelector('#resort-tabs');
 const panel = document.querySelector('#resort-panel');
@@ -54,7 +50,7 @@ async function updateRoutes(origin, label) {
   const requestId = ++routeRequestId;
   routeOrigin = { ...origin, label };
   routeEstimates = new Map();
-  originStatus.textContent = `Calculating driving routes from ${label}…`;
+  originStatus.textContent = `Calculating driving routes to Colorado resorts from ${label}…`;
   originStatus.dataset.state = 'loading';
   render();
   const estimates = await Promise.all(resorts.map(async (resort) => {
@@ -65,7 +61,7 @@ async function updateRoutes(origin, label) {
   routeEstimates = new Map(estimates);
   const successful = estimates.filter(([, estimate]) => estimate).length;
   originStatus.textContent = successful
-    ? `Showing the ${Math.min(DISPLAY_LIMIT, successful)} closest routable resorts from ${label}, sorted by estimated driving distance. Routes may vary with traffic and winter road conditions.`
+    ? `Showing driving estimates from ${label} to ${successful} Colorado resorts. Routes may vary with traffic and winter road conditions.`
     : 'Could not calculate routes right now. Please try again later.';
   originStatus.dataset.state = successful ? 'success' : 'error';
   render();
@@ -138,7 +134,7 @@ function renderPanel(resort, weather) {
     <p class="distance-note"><span aria-hidden="true">↗</span> From ${originText}: <strong>${distanceText}</strong><span class="distance-separator">·</span><strong>${driveTimeText}</strong> drive</p>
     <div class="detail-overview"><div class="detail-stat"><span class="metric-label">NEXT 7 DAYS</span><strong>${weather ? `${snowInches(weeklyTotal)}"` : 'Unavailable'}</strong><span class="metric-caption">forecast snowfall · model estimate</span></div><div class="detail-stat"><span class="metric-label">CURRENT BASE SNOW TOTAL</span><strong>${depth && Number(depth) > 1 ? `${depth}"` : '0'}</strong><span class="metric-caption">snowpack on ground · model estimate</span></div><div class="detail-stat"><span class="metric-label">CURRENT TEMPERATURE</span><strong>${Number.isFinite(temperature) ? `${Math.round(temperature)}°F` : 'Unavailable'}</strong><span class="metric-caption">base-area model estimate</span></div></div>
     <div class="detail-forecast-heading"><span>SEVEN-DAY SNOWFALL FORECAST</span><span>INCHES · MODEL ESTIMATE</span></div><div class="detail-forecast-list">${forecast || '<p class="forecast-unavailable">Forecast unavailable. Please try reloading.</p>'}</div>
-    <div class="detail-footer"><div class="report-copy"><span class="report-dot"></span><div><strong>Mountain operations &amp; conditions</strong><span>Pass access depends on your Ikon pass type. Check the resort's official report for current lift, trail, and on-mountain snow information.</span></div></div><div class="detail-links"><a class="report-link" href="${resort.report}" target="_blank" rel="noreferrer">OFFICIAL MOUNTAIN REPORT <span aria-hidden="true">↗</span></a><a class="map-link" href="${resort.map}" target="_blank" rel="noreferrer">VIEW RESORT MAP ↗</a></div></div>`;
+    <div class="detail-footer"><div class="report-copy"><span class="report-dot"></span><div><strong>Mountain operations &amp; conditions</strong><span>Check the resort's official report for current lift, trail, and on-mountain snow information.</span></div></div><div class="detail-links"><a class="report-link" href="${resort.report}" target="_blank" rel="noreferrer">OFFICIAL MOUNTAIN REPORT <span aria-hidden="true">↗</span></a><a class="map-link" href="${resort.map}" target="_blank" rel="noreferrer">VIEW RESORT MAP ↗</a></div></div>`;
 }
 function render() {
   const visible = getVisibleResults(), term = search.value.trim().toLowerCase();
@@ -172,9 +168,9 @@ async function getForecast(resort) {
 }
 async function load() {
   updatedAt.textContent = `· ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
-  document.querySelector('#local-conditions-heading').textContent = `Top ${DISPLAY_LIMIT} closest resort forecasts`;
-  document.querySelector('.resort-explorer').setAttribute('aria-label', `Top ${DISPLAY_LIMIT} closest resort conditions`);
-  tablist.setAttribute('aria-label', `Top ${DISPLAY_LIMIT} closest resorts`);
+  document.querySelector('#local-conditions-heading').textContent = 'Colorado resort forecasts';
+  document.querySelector('.resort-explorer').setAttribute('aria-label', 'Colorado resort forecasts');
+  tablist.setAttribute('aria-label', 'Colorado resorts');
   results = await Promise.all(resorts.map(async (resort) => ({ resort, weather: await getForecast(resort) })));
   panel.setAttribute('aria-busy', 'false');
   render();
