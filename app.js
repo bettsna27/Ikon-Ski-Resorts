@@ -42,6 +42,7 @@ function renderPanel(resort, weather) {
   const days = weather?.daily?.time || [];
   const snow = weather?.daily?.snowfall_sum || [];
   const weeklyTotal = snow.reduce((sum, amount) => sum + (Number(amount) || 0), 0);
+  // current.snow_depth is the current modeled snowpack depth, not snowfall over the last 24 hours.
   const currentDepth = weather?.current?.snow_depth;
   const depth = Number.isFinite(currentDepth) && currentDepth > 0 ? snowInches(currentDepth) : null;
   const temperature = weather?.current?.temperature_2m;
@@ -58,7 +59,7 @@ function renderPanel(resort, weather) {
     </div>
     <div class="detail-overview">
       <div class="detail-stat"><span class="metric-label">NEXT 7 DAYS</span><strong>${totalText}</strong><span class="metric-caption">forecast snowfall</span></div>
-      <div class="detail-stat"><span class="metric-label">BASE SNOW DEPTH</span><strong>${depthText}</strong><span class="metric-caption">weather-model estimate</span></div>
+      <div class="detail-stat"><span class="metric-label">CURRENT BASE SNOW TOTAL</span><strong>${depthText}</strong><span class="metric-caption">snowpack on ground · model estimate</span></div>
       <div class="detail-stat"><span class="metric-label">CURRENT TEMPERATURE</span><strong>${temperatureText}</strong><span class="metric-caption">base-area estimate</span></div>
     </div>
     <div class="detail-forecast-heading"><span>SEVEN-DAY SNOWFALL FORECAST</span><span>INCHES · MODEL ESTIMATE</span></div>
