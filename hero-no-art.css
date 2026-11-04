@@ -1,0 +1,4 @@
+/* Remove the decorative mountain illustration from the hero and let the copy use the full width. */
+.hero{display:block;height:auto;min-height:0;padding:clamp(42px,8vw,90px) 0}
+.hero-art{display:none!important}
+.hero-copy{max-width:760px}
