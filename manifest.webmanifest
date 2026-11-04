@@ -1,0 +1,26 @@
+{
+  "id": "ikon-ski-resorts-pwa",
+  "name": "Ikon Colorado Ski Resorts",
+  "short_name": "Ikon Resorts",
+  "description": "Colorado Ikon Base Pass resort forecasts, route estimates, and mountain reports.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#edf2ed",
+  "theme_color": "#102b32",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
