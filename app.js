@@ -1,10 +1,10 @@
 const resorts = [
-  { name: 'Arapahoe Basin', short: 'A-BASIN', elevation: '10,780 ft base', lat: 39.6425, lon: -105.8717, ikon: 'Unlimited access', report: 'https://www.arapahoebasin.com/snow-report/', map: 'https://www.google.com/maps/search/?api=1&query=Arapahoe+Basin+Colorado' },
-  { name: 'Aspen Snowmass', short: 'ASPEN SNOWMASS', elevation: '8,104 ft base', lat: 39.2084, lon: -106.9490, ikon: 'Limited days · 4 mountains', report: 'https://www.aspensnowmass.com/our-mountains/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Aspen+Snowmass+Colorado' },
-  { name: 'Copper Mountain', short: 'COPPER', elevation: '9,712 ft base', lat: 39.5022, lon: -106.1511, ikon: 'Unlimited access', report: 'https://www.coppercolorado.com/the-mountain/conditions-weather/snow-report', map: 'https://www.google.com/maps/search/?api=1&query=Copper+Mountain+Colorado' },
-  { name: 'Eldora Mountain', short: 'ELDORA', elevation: '9,200 ft base', lat: 39.9370, lon: -105.5829, ikon: 'Unlimited access', report: 'https://www.eldora.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Eldora+Mountain+Colorado' },
-  { name: 'Steamboat', short: 'STEAMBOAT', elevation: '6,900 ft base', lat: 40.4572, lon: -106.8045, ikon: 'Limited days', report: 'https://www.steamboat.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Steamboat+Ski+Resort+Colorado' },
-  { name: 'Winter Park', short: 'WINTER PARK', elevation: '9,000 ft base', lat: 39.8868, lon: -105.7625, ikon: 'Unlimited access', report: 'https://www.winterparkresort.com/the-mountain/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Winter+Park+Resort+Colorado' }
+  { name: 'Arapahoe Basin', short: 'A-BASIN', elevation: '10,780 ft base', lat: 39.6425, lon: -105.8717, ikon: 'Unlimited access', report: 'https://www.arapahoebasin.com/snow-report/', webcams: 'https://www.arapahoebasin.com/the-mountain/mountain-cams/', photo: 'https://d34ojwe46rt1wp.cloudfront.net/wp-content/uploads/2021/11/ABasin-LenAWay-Webcam.jpg', photoAlt: 'Live mountain webcam view at Arapahoe Basin' , map: 'https://www.google.com/maps/search/?api=1&query=Arapahoe+Basin+Colorado' },
+  { name: 'Aspen Snowmass', short: 'ASPEN SNOWMASS', elevation: '8,104 ft base', lat: 39.2084, lon: -106.9490, ikon: 'Limited days · 4 mountains', report: 'https://www.aspensnowmass.com/our-mountains/snow-report', webcams: 'https://www.aspensnowmass.com/our-mountain/webcams', photo: 'https://www.aspensnowmass.com/-/media/images/webcams/aspen-mountain/aspen-mountain-current.jpg', photoAlt: 'Live mountain webcam view at Aspen Snowmass', map: 'https://www.google.com/maps/search/?api=1&query=Aspen+Snowmass+Colorado' },
+  { name: 'Copper Mountain', short: 'COPPER', elevation: '9,712 ft base', lat: 39.5022, lon: -106.1511, ikon: 'Unlimited access', report: 'https://www.coppercolorado.com/the-mountain/conditions-weather/snow-report', webcams: 'https://www.coppercolorado.com/the-mountain/mountain-report/web-cams', photo: 'https://media.coppercolorado.com/webcams/CopperTV1.jpg', photoAlt: 'Live mountain webcam view at Copper Mountain', map: 'https://www.google.com/maps/search/?api=1&query=Copper+Mountain+Colorado' },
+  { name: 'Eldora Mountain', short: 'ELDORA', elevation: '9,200 ft base', lat: 39.9370, lon: -105.5829, ikon: 'Unlimited access', report: 'https://www.eldora.com/the-mountain/mountain-report', webcams: 'https://www.eldora.com/the-mountain/webcams.aspx', photo: 'https://s3.amazonaws.com/webcam.eldora.com/Dynamic/eldorawebcam2.jpg', photoAlt: 'Live mountain webcam view at Eldora Mountain', map: 'https://www.google.com/maps/search/?api=1&query=Eldora+Mountain+Colorado' },
+  { name: 'Steamboat', short: 'STEAMBOAT', elevation: '6,900 ft base', lat: 40.4572, lon: -106.8045, ikon: 'Limited days', report: 'https://www.steamboat.com/the-mountain/mountain-report', webcams: 'https://www.steamboat.com/the-mountain/webcams', photo: 'https://static.steamboat.com/webcams/thunderhead.jpg', photoAlt: 'Live Thunderhead webcam view at Steamboat', map: 'https://www.google.com/maps/search/?api=1&query=Steamboat+Ski+Resort+Colorado' },
+  { name: 'Winter Park', short: 'WINTER PARK', elevation: '9,000 ft base', lat: 39.8868, lon: -105.7625, ikon: 'Unlimited access', report: 'https://www.winterparkresort.com/the-mountain/mountain-report', webcams: 'https://www.winterparkresort.com/the-mountain/mountain-cams', photo: 'https://images.winterparkresort.com/cams/base.jpg', photoAlt: 'Live base webcam view at Winter Park Resort', map: 'https://www.google.com/maps/search/?api=1&query=Winter+Park+Resort+Colorado' }
 ];
 
 const tablist = document.querySelector('#resort-tabs');
@@ -42,7 +42,6 @@ function renderPanel(resort, weather) {
   const days = weather?.daily?.time || [];
   const snow = weather?.daily?.snowfall_sum || [];
   const weeklyTotal = snow.reduce((sum, amount) => sum + (Number(amount) || 0), 0);
-  // current.snow_depth is the current modeled snowpack depth, not snowfall over the last 24 hours.
   const currentDepth = weather?.current?.snow_depth;
   const depth = Number.isFinite(currentDepth) && currentDepth > 0 ? snowInches(currentDepth) : null;
   const temperature = weather?.current?.temperature_2m;
@@ -53,7 +52,12 @@ function renderPanel(resort, weather) {
   const temperatureText = Number.isFinite(temperature) ? `${Math.round(temperature)}°F` : 'Unavailable';
 
   panel.setAttribute('aria-labelledby', `tab-${slug(resort.name)}`);
-  panel.innerHTML = `<div class="detail-header">
+  panel.innerHTML = `<div class="resort-photo-wrap">
+      <img class="resort-photo" src="${resort.photo}" alt="${resort.photoAlt}" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true;this.parentElement.classList.add('photo-unavailable')">
+      <div class="photo-overlay"><span class="photo-live"><i></i> MOUNTAIN CAM</span><a href="${resort.webcams}" target="_blank" rel="noreferrer">VIEW LIVE WEBCAMS ↗</a></div>
+      <span class="photo-credit">Image: ${resort.name} webcam</span>
+    </div>
+    <div class="detail-header">
       <div><span class="resort-tag">${resort.short}</span><h3>${resort.name}</h3><p class="detail-subtitle">Colorado · ${resort.elevation}</p></div>
       <span class="detail-pass-tag">${resort.ikon}</span>
     </div>
