@@ -10,6 +10,7 @@ const resorts = [
   { name: 'Snowbasin', short: 'SNOWBASIN', location: 'Huntsville, Utah', elevation: '6,391 ft base', distance: '~480 mi from CSU', driveTime: '~7 hr 30 min', lat: 41.2161, lon: -111.8561, ikon: 'Ikon Pass destination', report: 'https://www.snowbasin.com/mountain-report/', map: 'https://www.google.com/maps/search/?api=1&query=Snowbasin+Utah' },
   { name: 'Solitude Mountain Resort', short: 'SOLITUDE', location: 'Solitude, Utah', elevation: '7,994 ft base', distance: '~490 mi from CSU', driveTime: '~7 hr 45 min', lat: 40.6199, lon: -111.5919, ikon: 'Ikon Pass destination', report: 'https://www.solitudemountain.com/mountain-report', map: 'https://www.google.com/maps/search/?api=1&query=Solitude+Mountain+Resort+Utah' }
 ];
+const DISPLAY_LIMIT = 7;
 
 const tablist = document.querySelector('#resort-tabs');
 const panel = document.querySelector('#resort-panel');
@@ -25,6 +26,12 @@ let selectedName = resorts[0].name;
 let routeOrigin = null;
 let routeEstimates = new Map();
 let routeRequestId = 0;
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
 
 function snowInches(cm) {
   return cm == null ? null : (cm / 2.54).toFixed(1);
@@ -50,6 +57,21 @@ function formatDistance(meters) {
   return `~${Math.round(meters / 1609.344)} mi`;
 }
 
+function defaultRouteOrder() {
+  return resorts;
+}
+
+function getVisibleResults() {
+  const ordered = routeOrigin
+    ? [...results].sort((a, b) => {
+      const aDistance = routeEstimates.get(a.resort.name)?.distanceMeters ?? Infinity;
+      const bDistance = routeEstimates.get(b.resort.name)?.distanceMeters ?? Infinity;
+      return aDistance - bDistance;
+    })
+    : defaultRouteOrder().map((resort) => results.find((result) => result.resort.name === resort.name)).filter(Boolean);
+  return ordered.slice(0, DISPLAY_LIMIT);
+}
+
 async function getDrivingRoute(resort, origin) {
   const url = `https://router.project-osrm.org/route/v1/driving/${origin.longitude},${origin.latitude};${resort.lon},${resort.lat}?overview=false`;
   const response = await fetch(url);
@@ -57,7 +79,7 @@ async function getDrivingRoute(resort, origin) {
   const data = await response.json();
   const route = data.routes?.[0];
   if (data.code !== 'Ok' || !route) throw new Error('No driving route found');
-  return { distance: formatDistance(route.distance), driveTime: formatDuration(route.duration) };
+  return { distance: formatDistance(route.distance), distanceMeters: route.distance, driveTime: formatDuration(route.duration) };
 }
 
 async function updateRoutes(origin, label) {
@@ -81,7 +103,7 @@ async function updateRoutes(origin, label) {
   routeEstimates = new Map(estimates);
   const successful = estimates.filter(([, estimate]) => estimate).length;
   originStatus.textContent = successful
-    ? `Drive estimates shown from ${label}. Routes are approximate and may vary with traffic and winter road conditions.`
+    ? `Showing the ${Math.min(DISPLAY_LIMIT, successful)} closest routable resorts from ${label}, sorted by estimated driving distance. Routes may vary with traffic and winter road conditions.`
     : 'Could not calculate routes right now. Please try again later.';
   originStatus.dataset.state = successful ? 'success' : 'error';
   render();
@@ -146,7 +168,7 @@ locationButton.addEventListener('click', () => {
 function renderTabs(filtered) {
   tablist.innerHTML = filtered.map(({ resort }) => {
     const active = resort.name === selectedName;
-    return `<button class="resort-tab" id="tab-${slug(resort.name)}" type="button" role="tab" aria-selected="${active}" aria-controls="resort-panel" tabindex="${active ? '0' : '-1'}" data-resort="${resort.name}">${resort.name}</button>`;
+    return `<button class="resort-tab" id="tab-${slug(resort.name)}" type="button" role="tab" aria-selected="${active}" aria-controls="resort-panel" tabindex="${active ? '0' : '-1'}" data-resort="${escapeHTML(resort.name)}">${escapeHTML(resort.name)}</button>`;
   }).join('');
   tablist.querySelectorAll('[role="tab"]').forEach((tab) => {
     tab.addEventListener('click', () => selectResort(tab.dataset.resort));
@@ -167,19 +189,24 @@ function renderPanel(resort, weather) {
   const depthText = depth && Number(depth) > 1 ? `${depth}"` : '0';
   const temperatureText = Number.isFinite(temperature) ? `${Math.round(temperature)}°F` : 'Unavailable';
   const estimate = routeEstimates.get(resort.name);
-  const distanceText = estimate?.distance || resort.distance;
-  const driveTimeText = estimate?.driveTime || resort.driveTime;
-  const originText = routeOrigin?.label || 'Colorado State University';
+  const distanceText = routeOrigin ? (estimate?.distance || 'Unavailable') : resort.distance;
+  const driveTimeText = routeOrigin ? (estimate?.driveTime || 'Unavailable') : resort.driveTime;
+  const originText = escapeHTML(routeOrigin?.label || 'Colorado State University');
+  const resortName = escapeHTML(resort.name);
+  const resortLocation = escapeHTML(resort.location);
+  const resortShort = escapeHTML(resort.short);
+  const resortElevation = escapeHTML(resort.elevation);
+  const ikonAccess = escapeHTML(resort.ikon);
 
   panel.setAttribute('aria-labelledby', `tab-${slug(resort.name)}`);
   panel.innerHTML = `<div class="detail-header">
-      <div><span class="resort-tag">${resort.short}</span><h3>${resort.name}</h3><p class="detail-subtitle">${resort.location} · ${resort.elevation}</p></div>
-      <span class="detail-pass-tag">${resort.ikon}</span>
+      <div><span class="resort-tag">${resortShort}</span><h3>${resortName}</h3><p class="detail-subtitle">${resortLocation} · ${resortElevation}</p></div>
+      <span class="detail-pass-tag">${ikonAccess}</span>
     </div>
     <p class="distance-note"><span aria-hidden="true">↗</span> From ${originText}: <strong>${distanceText}</strong><span class="distance-separator">·</span><strong>${driveTimeText}</strong> drive</p>
     <div class="detail-overview">
       <div class="detail-stat"><span class="metric-label">NEXT 7 DAYS</span><strong>${totalText}</strong><span class="metric-caption">forecast snowfall · model estimate</span></div>
-      <div class="detail-stat"><span class="metric-label">CURRENT BASE SNOW TOTAL</span><strong>${depth && Number(depth) > 1 ? `${depth}"` : '0'}</strong><span class="metric-caption">snowpack on ground · model estimate</span></div>
+      <div class="detail-stat"><span class="metric-label">CURRENT BASE SNOW TOTAL</span><strong>${depthText}</strong><span class="metric-caption">snowpack on ground · model estimate</span></div>
       <div class="detail-stat"><span class="metric-label">CURRENT TEMPERATURE</span><strong>${temperatureText}</strong><span class="metric-caption">base-area model estimate</span></div>
     </div>
     <div class="detail-forecast-heading"><span>SEVEN-DAY SNOWFALL FORECAST</span><span>INCHES · MODEL ESTIMATE</span></div>
@@ -188,8 +215,9 @@ function renderPanel(resort, weather) {
 }
 
 function render() {
+  const visible = getVisibleResults();
   const term = search.value.trim().toLowerCase();
-  const filtered = results.filter(({ resort }) => resort.name.toLowerCase().includes(term));
+  const filtered = visible.filter(({ resort }) => resort.name.toLowerCase().includes(term));
   document.querySelector('#resort-count').textContent = `/${String(filtered.length).padStart(2, '0')}`;
   document.querySelector('#empty-state').hidden = filtered.length !== 0;
   tablist.hidden = filtered.length === 0;
@@ -244,6 +272,9 @@ async function getForecast(resort) {
 
 async function load() {
   updatedAt.textContent = `· ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+  document.querySelector('#local-conditions-heading').textContent = `Top ${DISPLAY_LIMIT} closest resort forecasts`;
+  document.querySelector('.resort-explorer').setAttribute('aria-label', `Top ${DISPLAY_LIMIT} closest resort conditions`);
+  document.querySelector('#resort-tabs').setAttribute('aria-label', `Top ${DISPLAY_LIMIT} closest resorts`);
   results = await Promise.all(resorts.map(async (resort) => ({ resort, weather: await getForecast(resort) })));
   panel.setAttribute('aria-busy', 'false');
   render();

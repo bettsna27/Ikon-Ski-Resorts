@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="mountain-theme.css">
   <link rel="stylesheet" href="resort-distance.css">
   <link rel="stylesheet" href="ikon-directory.css">
-  <script src="app.js?v=base-pass-regions-1" defer></script>
+  <script src="app.js?v=top-7-dynamic-nearest-1" defer></script>
   <script src="ikon-base-directory.js?v=base-pass-regions-1" defer></script>
 </head>
 <body>
@@ -42,7 +42,7 @@
     <div class="data-note"><span class="note-icon">i</span><p><strong>Forecast data:</strong> Seven-day snowfall and current snow depth are Open-Meteo weather-model estimates for resort base areas. Pass access and blackout dates can vary by pass and season; confirm details on the official Ikon Pass site.</p></div>
 
     <section class="origin-picker" aria-labelledby="origin-heading">
-      <div class="origin-copy"><p class="section-kicker">YOUR STARTING POINT</p><h2 id="origin-heading">Where are you driving from?</h2><p>Enter a place or share your device location to see estimated road distance and drive time to a resort.</p></div>
+      <div class="origin-copy"><p class="section-kicker">YOUR STARTING POINT</p><h2 id="origin-heading">Where are you driving from?</h2><p>Enter a place or share your device location to see estimated road distance and drive time to nearby resorts.</p></div>
       <form id="origin-form" class="origin-form">
         <label class="visually-hidden" for="origin-input">City, address, or ZIP code</label>
         <input id="origin-input" name="origin" type="text" placeholder="City, address, or ZIP code" autocomplete="street-address">
@@ -67,13 +67,13 @@
     </section>
 
     <section class="resort-explorer" aria-label="Mountain conditions for the closest resorts">
-      <div class="toolbar"><div><p class="section-kicker">LOCAL CONDITIONS</p><h2>Colorado-area resort forecasts</h2></div></div>
-      <div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="Closest resort conditions" aria-orientation="horizontal"></div>
+      <div class="toolbar"><div><p class="section-kicker">LOCAL CONDITIONS · CLOSEST FIRST</p><h2 id="local-conditions-heading">Top 7 closest resort forecasts</h2></div></div>
+      <div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="Top 7 closest resorts" aria-orientation="horizontal"></div>
       <section id="resort-panel" class="resort-panel" role="tabpanel" aria-live="polite" aria-busy="true"><div class="loading-card">Loading resort forecasts<span class="loading-dots">...</span></div></section>
       <p id="empty-state" class="empty-state" hidden>No resorts match that search. Try another name.</p>
     </section>
 
-    <section class="how-it-works"><div><p class="section-kicker">FRESH ON EVERY VISIT</p><h2>Plan your next<br>mountain day.</h2></div><p>Choose a region to browse Base Pass destinations. The local conditions panel includes forecasts and approximate route estimates for nearby resorts. Use official resort reports for current operations information.</p></section>
+    <section class="how-it-works"><div><p class="section-kicker">FRESH ON EVERY VISIT</p><h2>Plan your next<br>mountain day.</h2></div><p>Choose a region to browse Base Pass destinations. The local conditions panel shows the seven closest resorts in its regional shortlist, with forecasts and approximate route estimates from your chosen starting point. Use official resort reports for current operations information.</p></section>
   </main>
 
   <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a><span>Independent conditions guide · Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · Routes by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a></span><a href="#top">BACK TO TOP ↑</a></footer>
