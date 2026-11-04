@@ -48,7 +48,7 @@ function renderPanel(resort, weather) {
   const forecast = days.slice(0, 7).map((day, i) => `
     <div class="detail-forecast-day"><span>${prettyDate(day)}</span><strong>${snowInches(snow[i]) ?? '—'}<small> in</small></strong></div>`).join('');
   const totalText = weather ? `${snowInches(weeklyTotal)}"` : 'Unavailable';
-  const depthText = depth ? `${depth}"` : 'No model reading';
+  const depthText = depth && Number(depth) > 1 ? `${depth}"` : '0';
   const temperatureText = Number.isFinite(temperature) ? `${Math.round(temperature)}°F` : 'Unavailable';
 
   panel.setAttribute('aria-labelledby', `tab-${slug(resort.name)}`);
