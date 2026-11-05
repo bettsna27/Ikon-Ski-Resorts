@@ -20,7 +20,7 @@ body{background-color:#edf5fa;background-image:repeating-radial-gradient(ellipse
 .detail-forecast-day{background:linear-gradient(155deg,#f3fafb,#e5f1f5)}
 .report-link{border-color:#c8dce4;color:#235e71}.report-link:hover{background:#e2f1f4}.report-dot{background:#56a6a6;box-shadow:0 0 0 4px #56a6a620}
 .browse-regions-cta{border-color:#c5dce5;background:linear-gradient(120deg,#deeff3,#f3f8f6 72%,#e0edf3)}
-.browse-regions-cta p{color:#49687a}.browse-regions-cta strong{color:#173f58}.browse-regions-cta a{background:#3689a2;color:#fff}.browse-regions-cta a:hover{background:#2b7891;color:#fff}
+.browse-regions-cta p{color:#49687a}.browse-regions-cta strong{color:#173f58}.browse-regions-cta a{background:#174b61;color:#fff}.browse-regions-cta a:hover{background:#0f3d4d;color:#fff}
 .browse-regions-cta a:focus-visible{outline:3px solid #f28a5d;outline-offset:3px}
 .region-tabs .region-tab[aria-selected="true"]{background:#174b61;border-color:#174b61}
 .ikon-destination{border-color:#cbdde6;background:#f8fbfc}.ikon-destination-main h3{color:#173f58}.ikon-access{color:#49687a}
