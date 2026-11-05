@@ -89,6 +89,80 @@ let selectedRegion = 'colorado';
 const coordinateCache = new Map();
 const forecastCache = new Map();
 const numberFormat = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 });
+const resortCoordinates = {
+  'Arapahoe Basin': { latitude: 39.6422, longitude: -106.0459 },
+  'Aspen Snowmass — Snowmass': { latitude: 39.1908, longitude: -106.9354 },
+  'Copper Mountain': { latitude: 39.5022, longitude: -106.1512 },
+  'Eldora Mountain': { latitude: 39.9383, longitude: -105.5856 },
+  'Steamboat': { latitude: 40.485, longitude: -106.8317 },
+  'Winter Park': { latitude: 39.8867, longitude: -105.7623 },
+  'Alyeska Resort': { latitude: 60.9708, longitude: -149.0975 },
+  'Big Bear Mountain Resort': { latitude: 34.2415, longitude: -116.9121 },
+  'Big Sky Resort': { latitude: 45.2834, longitude: -111.404 },
+  'Blue Mountain': { latitude: 44.5013, longitude: -80.3205 },
+  'Boyne Mountain': { latitude: 45.1645, longitude: -84.9161 },
+  'Brighton Resort': { latitude: 40.5984, longitude: -111.5838 },
+  'Camelback Resort': { latitude: 41.0511, longitude: -75.354 },
+  'Crystal Mountain': { latitude: 46.9353, longitude: -121.493 },
+  'Granite Peak': { latitude: 44.8898, longitude: -89.563 },
+  'June Mountain': { latitude: 37.7851, longitude: -119.0765 },
+  'Killington–Pico': { latitude: 43.6218, longitude: -72.807 },
+  'Loon Mountain': { latitude: 44.0326, longitude: -71.6215 },
+  'Lutsen Mountains': { latitude: 47.6527, longitude: -90.6823 },
+  'Mammoth Mountain': { latitude: 37.6306, longitude: -119.0327 },
+  'Mt. Bachelor': { latitude: 44.0035, longitude: -121.688 },
+  'Palisades Tahoe': { latitude: 39.1961, longitude: -120.2356 },
+  'Schweitzer': { latitude: 48.3717, longitude: -116.6136 },
+  'Sierra-at-Tahoe': { latitude: 38.594, longitude: -120.08 },
+  'Snow Valley': { latitude: 34.2208, longitude: -117.0384 },
+  'Snowbird': { latitude: 40.5817, longitude: -111.6525 },
+  'Snowshoe Mountain': { latitude: 38.4106, longitude: -79.9955 },
+  'Solitude Mountain Resort': { latitude: 40.619, longitude: -111.592 },
+  'Stratton': { latitude: 43.0843, longitude: -72.918 },
+  'Sugarbush Resort': { latitude: 44.1536, longitude: -72.8818 },
+  'Sugarloaf': { latitude: 45.0387, longitude: -70.3236 },
+  'Sunday River': { latitude: 44.525, longitude: -70.872 },
+  'The Highlands': { latitude: 45.054, longitude: -84.696 },
+  'The Summit at Snoqualmie': { latitude: 47.4206, longitude: -121.4143 },
+  'Taos Ski Valley': { latitude: 36.5958, longitude: -105.4526 },
+  'Tremblant': { latitude: 46.2109, longitude: -74.5937 },
+  'Cypress Mountain': { latitude: 49.3986, longitude: -122.9145 },
+  'Le Massif de Charlevoix': { latitude: 47.5728, longitude: -70.337 },
+  'Panorama Mountain Resort': { latitude: 50.4664, longitude: -116.1875 },
+  'RED Mountain': { latitude: 49.1005, longitude: -117.8363 },
+  'Revelstoke Mountain Resort': { latitude: 50.9583, longitude: -118.1848 },
+  'SilverStar Mountain Resort': { latitude: 50.3586, longitude: -119.057 },
+  'SkiBig3': { latitude: 51.181, longitude: -115.571 },
+  'Sun Peaks Resort': { latitude: 50.8839, longitude: -119.891 },
+  'Chamonix Mont-Blanc Valley': { latitude: 45.9236, longitude: 6.8694 },
+  'Dolomiti Superski': { latitude: 46.5349, longitude: 11.9976 },
+  'Grandvalira Resorts': { latitude: 42.5364, longitude: 1.5813 },
+  'Ischgl': { latitude: 47.0103, longitude: 10.2911 },
+  'Kitzbühel': { latitude: 47.446, longitude: 12.392 },
+  'Megève Ski Area': { latitude: 45.865, longitude: 6.623 },
+  'St. Moritz': { latitude: 46.4977, longitude: 9.8355 },
+  'Valle d’Aosta': { latitude: 45.7336, longitude: 7.3276 },
+  'Zermatt Matterhorn': { latitude: 46.0207, longitude: 7.7491 },
+  'Coronet Peak': { latitude: -44.928, longitude: 168.753 },
+  'The Remarkables': { latitude: -45.091, longitude: 168.724 },
+  'Mt Hutt': { latitude: -43.5365, longitude: 171.4207 },
+  'Mt Buller': { latitude: -37.1465, longitude: 146.448 },
+  'Thredbo': { latitude: -36.5013, longitude: 148.311 },
+  'Arai Mountain Resort': { latitude: 36.95, longitude: 138.35 },
+  'APPI Resort': { latitude: 39.9456, longitude: 141.123 },
+  'Furano Ski Resort': { latitude: 43.3444, longitude: 142.3905 },
+  'Madarao Mountain Resort': { latitude: 36.9, longitude: 138.3 },
+  'Mona Yongpyong': { latitude: 37.6447, longitude: 128.677 },
+  'Mt.T': { latitude: 36.65, longitude: 138.15 },
+  'Nekoma Mountain': { latitude: 37.8218, longitude: 140.0791 },
+  'Niseko United': { latitude: 42.8543, longitude: 140.687 },
+  'Shiga Kogen Mountain Resort': { latitude: 36.7071, longitude: 138.49 },
+  'Zao Onsen Ski Resort': { latitude: 38.1502, longitude: 140.38 },
+  'Yunding Snow Park': { latitude: 40.8388, longitude: 115.1747 },
+  'Beidahu Ski Resort': { latitude: 42.68, longitude: 128.896 },
+  'Lake Songhua Resort': { latitude: 43.541, longitude: 126.485 },
+  'Valle Nevado': { latitude: -33.3336, longitude: -70.2454 }
+};
 
 function escapeHTML(value) {
   return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -100,8 +174,12 @@ async function getCoordinates(name, location) {
   const key = `${name}|${location}`;
   if (coordinateCache.has(key)) return coordinateCache.get(key);
 
-  // Search for the resort and its location together, rather than passing this long
-  // phrase to Open-Meteo's place-name-only geocoder (which often returns no match).
+  const fallback = resortCoordinates[name] || resortCoordinates[location.replace(/,.*$/, '').trim()] || resortCoordinates[Object.keys(resortCoordinates).find((entry) => entry.toLowerCase().includes(name.toLowerCase().split(' ')[0]))];
+  if (fallback) {
+    coordinateCache.set(key, fallback);
+    return fallback;
+  }
+
   const url = new URL('https://nominatim.openstreetmap.org/search');
   url.search = new URLSearchParams({ q: `${name}, ${location}`, format: 'jsonv2', limit: '1' });
   const response = await fetch(url, { headers: { Accept: 'application/json' } });
