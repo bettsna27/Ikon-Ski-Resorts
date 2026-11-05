@@ -1,5 +1,5 @@
-const CACHE_NAME = 'ikon-resorts-shell-v1';
-const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './styles.css', './resort-tabs.css', './mountain-theme.css', './resort-distance.css', './ikon-directory.css', './hero-illustration.css', './app.js', './auto-location.js', './ikon-base-directory.js', './icons/app-icon.svg'];
+const CACHE_NAME = 'ikon-resorts-shell-v2';
+const APP_SHELL = ['./', './index.html', './destinations.html', './manifest.webmanifest', './styles.css', './resort-tabs.css', './mountain-theme.css', './resort-distance.css', './ikon-directory.css', './hero-illustration.css', './app.js', './auto-location.js', './ikon-base-directory.js', './icons/app-icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
@@ -7,7 +7,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))));
+  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('ikon-resorts-shell-') && key !== CACHE_NAME).map((key) => caches.delete(key)))));
   self.clients.claim();
 });
 
@@ -18,8 +18,10 @@ self.addEventListener('fetch', (event) => {
 
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).then((response) => {
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', copy));
+      if (response.ok) {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+      }
       return response;
     }).catch(async () => (await caches.match(request)) || (await caches.match('./index.html'))));
     return;

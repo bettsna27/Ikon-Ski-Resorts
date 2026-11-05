@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b32">
+  <meta name="description" content="Browse Ikon Base Pass ski destinations by region.">
+  <title>Browse by Region · Ikon Base Pass Conditions</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/app-icon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mountain-theme.css">
+  <link rel="stylesheet" href="ikon-directory.css">
+  <script src="ikon-base-directory.js?v=base-pass-regions-1" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Colorado Ikon Conditions home"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a>
+    <a class="pass-link" href="./">← BACK TO COLORADO FORECASTS</a>
+  </header>
+  <main>
+    <section class="region-directory" aria-labelledby="directory-title">
+      <div class="directory-heading"><div><p class="section-kicker">IKON BASE PASS DESTINATIONS</p><h1 id="directory-title">Browse by region</h1></div><p id="directory-count" aria-live="polite"></p></div>
+      <p class="base-pass-note">Browse destinations included with the Ikon Base Pass by region. Separate Bonus Mountains and resorts without Base Pass access are excluded. Resort access limits and blackout dates vary by destination and season.</p>
+      <div class="region-tabs" role="tablist" aria-label="Resort regions"><button class="region-tab" id="region-colorado" type="button" role="tab" aria-selected="true" aria-controls="ikon-directory" tabindex="0" data-region-tab="colorado">COLORADO</button><button class="region-tab" id="region-north-america" type="button" role="tab" aria-selected="false" aria-controls="ikon-directory" tabindex="-1" data-region-tab="northAmerica">NORTH AMERICA · EXCEPT COLORADO</button><button class="region-tab" id="region-international" type="button" role="tab" aria-selected="false" aria-controls="ikon-directory" tabindex="-1" data-region-tab="international">INTERNATIONAL</button></div>
+      <label class="visually-hidden" for="directory-search">Filter destinations in selected region</label><input id="directory-search" class="directory-search" type="search" placeholder="Filter destinations in this region">
+      <div id="ikon-directory" class="ikon-directory" role="tabpanel" aria-labelledby="region-colorado"></div><p id="directory-empty" class="directory-empty" hidden>No destinations match your search.</p>
+    </section>
+  </main>
+  <footer><a class="brand footer-brand" href="./"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a><span>Independent Ikon Base Pass destination guide</span><a href="./">COLORADO FORECASTS ↑</a></footer>
+</body>
+</html>
