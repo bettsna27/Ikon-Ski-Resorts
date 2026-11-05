@@ -99,15 +99,20 @@ function resortId(name) { return `forecast-${name.toLowerCase().replace(/[^a-z0-
 async function getCoordinates(name, location) {
   const key = `${name}|${location}`;
   if (coordinateCache.has(key)) return coordinateCache.get(key);
-  const query = `${name} ${location}`;
-  const url = new URL('https://geocoding-api.open-meteo.com/v1/search');
-  url.search = new URLSearchParams({ name: query, count: '1', language: 'en', format: 'json' });
-  const response = await fetch(url);
-  if (!response.ok) throw new Error('Could not search for this resort location.');
-  const data = await response.json();
-  const place = data.results?.[0];
-  if (!place) throw new Error('Could not find a forecast location for this resort.');
-  const coordinates = { latitude: place.latitude, longitude: place.longitude };
+
+  // Search for the resort and its location together, rather than passing this long
+  // phrase to Open-Meteo's place-name-only geocoder (which often returns no match).
+  const url = new URL('https://nominatim.openstreetmap.org/search');
+  url.search = new URLSearchParams({ q: `${name}, ${location}`, format: 'jsonv2', limit: '1' });
+  const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (!response.ok) throw new Error('Could not look up this resort location. Please try again.');
+  const places = await response.json();
+  const place = places[0];
+  if (!place) throw new Error('Could not find a location for this resort. Try again later.');
+  const coordinates = { latitude: Number(place.lat), longitude: Number(place.lon) };
+  if (!Number.isFinite(coordinates.latitude) || !Number.isFinite(coordinates.longitude)) {
+    throw new Error('The resort location could not be read. Please try again.');
+  }
   coordinateCache.set(key, coordinates);
   return coordinates;
 }
@@ -128,7 +133,7 @@ async function getForecast(name, location) {
     timezone: 'auto'
   });
   const response = await fetch(url);
-  if (!response.ok) throw new Error('Forecast service is unavailable right now.');
+  if (!response.ok) throw new Error('The weather service is temporarily unavailable. Please try again.');
   const data = await response.json();
   forecastCache.set(key, data);
   return data;
@@ -189,6 +194,7 @@ directory.addEventListener('click', (event) => {
   const location = card.querySelector('.ikon-destination-main p').textContent;
   if (button.getAttribute('aria-expanded') === 'true') {
     button.setAttribute('aria-expanded', 'false');
+    button.textContent = 'SHOW 7-DAY WEATHER FORECAST';
     document.getElementById(button.getAttribute('aria-controls')).hidden = true;
     return;
   }

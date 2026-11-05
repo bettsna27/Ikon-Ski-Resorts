@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ikon-resorts-shell-v4';
+const CACHE_NAME = 'ikon-resorts-shell-v5';
 const APP_SHELL = ['./', './index.html', './destinations.html', './manifest.webmanifest', './styles.css', './resort-tabs.css', './mountain-theme.css', './resort-distance.css', './ikon-directory.css', './hero-illustration.css', './app.js', './auto-location.js', './ikon-base-directory.js', './icons/app-icon.svg'];
 
 self.addEventListener('install', (event) => {
