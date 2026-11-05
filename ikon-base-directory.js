@@ -86,6 +86,88 @@ const directorySearch = document.querySelector('#directory-search');
 const directoryCount = document.querySelector('#directory-count');
 const directoryEmpty = document.querySelector('#directory-empty');
 let selectedRegion = 'colorado';
+const coordinateCache = new Map();
+const forecastCache = new Map();
+const numberFormat = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 });
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+}
+function inches(cm) { return Number.isFinite(cm) ? numberFormat.format(cm / 2.54) : '—'; }
+function resortId(name) { return `forecast-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`; }
+
+async function getCoordinates(name, location) {
+  const key = `${name}|${location}`;
+  if (coordinateCache.has(key)) return coordinateCache.get(key);
+  const query = `${name} ${location}`;
+  const url = new URL('https://geocoding-api.open-meteo.com/v1/search');
+  url.search = new URLSearchParams({ name: query, count: '1', language: 'en', format: 'json' });
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Could not search for this resort location.');
+  const data = await response.json();
+  const place = data.results?.[0];
+  if (!place) throw new Error('Could not find a forecast location for this resort.');
+  const coordinates = { latitude: place.latitude, longitude: place.longitude };
+  coordinateCache.set(key, coordinates);
+  return coordinates;
+}
+
+async function getForecast(name, location) {
+  const key = `${name}|${location}`;
+  if (forecastCache.has(key)) return forecastCache.get(key);
+  const coordinates = await getCoordinates(name, location);
+  const url = new URL('https://api.open-meteo.com/v1/forecast');
+  url.search = new URLSearchParams({
+    latitude: coordinates.latitude,
+    longitude: coordinates.longitude,
+    current: 'temperature_2m,snow_depth',
+    daily: 'snowfall_sum,temperature_2m_max,temperature_2m_min',
+    forecast_days: '7',
+    temperature_unit: 'fahrenheit',
+    precipitation_unit: 'inch',
+    timezone: 'auto'
+  });
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Forecast service is unavailable right now.');
+  const data = await response.json();
+  forecastCache.set(key, data);
+  return data;
+}
+
+function renderForecast(data) {
+  const days = data.daily?.time || [];
+  const snowfall = data.daily?.snowfall_sum || [];
+  const highs = data.daily?.temperature_2m_max || [];
+  const lows = data.daily?.temperature_2m_min || [];
+  const currentTemp = data.current?.temperature_2m;
+  const currentSnowDepth = data.current?.snow_depth;
+  const dailyRows = days.map((date, index) => {
+    const day = new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+    return `<div class="destination-forecast-day"><span>${escapeHTML(day)}</span><strong>${inches(snowfall[index])}<small> in snow</small></strong><span>${Number.isFinite(lows[index]) ? Math.round(lows[index]) : '—'}° / ${Number.isFinite(highs[index]) ? Math.round(highs[index]) : '—'}°F</span></div>`;
+  }).join('');
+  const current = Number.isFinite(currentTemp) ? `Now ${Math.round(currentTemp)}°F` : 'Current temperature unavailable';
+  const depth = Number.isFinite(currentSnowDepth) ? `${inches(currentSnowDepth)} in current snow depth` : '';
+  return `<div class="destination-forecast-current"><strong>${escapeHTML(current)}</strong>${depth ? `<span>${escapeHTML(depth)}</span>` : ''}</div><div class="destination-forecast-days">${dailyRows || '<p>Forecast data is not available.</p>'}</div><p class="destination-forecast-note">Seven-day model estimate for the nearby resort area; check the resort for official mountain conditions.</p>`;
+}
+
+async function loadForecast(button, name, location) {
+  const details = document.getElementById(button.getAttribute('aria-controls'));
+  if (!details) return;
+  button.setAttribute('aria-expanded', 'true');
+  details.hidden = false;
+  if (details.dataset.loaded === 'true' || details.dataset.loading === 'true') return;
+  details.dataset.loading = 'true';
+  details.innerHTML = '<p class="destination-forecast-status" role="status">Loading seven-day forecast…</p>';
+  try {
+    const forecast = await getForecast(name, location);
+    details.innerHTML = renderForecast(forecast);
+    details.dataset.loaded = 'true';
+  } catch (error) {
+    details.innerHTML = `<p class="destination-forecast-status" role="status">${escapeHTML(error.message || 'Forecast unavailable. Please try again.')}</p>`;
+  } finally {
+    delete details.dataset.loading;
+  }
+}
 
 function renderDirectory() {
   const query = directorySearch.value.trim().toLocaleLowerCase();
@@ -93,10 +175,26 @@ function renderDirectory() {
   directoryCount.textContent = `${destinations.length} destinations`;
   directoryEmpty.hidden = destinations.length > 0;
   directory.innerHTML = destinations.map(([name, location, access]) => {
+    const id = resortId(name);
     const mapQuery = encodeURIComponent(`${name} ${location}`);
-    return `<article class="ikon-destination"><div class="ikon-destination-main"><h3>${name}</h3><p>${location}</p></div><span class="ikon-access">${access}</span><a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noreferrer" aria-label="Find ${name} on map">MAP ↗</a></article>`;
+    return `<article class="ikon-destination"><div class="ikon-destination-main"><h3>${escapeHTML(name)}</h3><p>${escapeHTML(location)}</p></div><span class="ikon-access">${escapeHTML(access)}</span><a href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noreferrer">VIEW MAP ↗</a><button class="destination-forecast-toggle" type="button" aria-expanded="false" aria-controls="${id}">SHOW 7-DAY WEATHER FORECAST</button><div class="destination-forecast" id="${id}" hidden></div></article>`;
   }).join('');
 }
+
+directory.addEventListener('click', (event) => {
+  const button = event.target.closest('.destination-forecast-toggle');
+  if (!button) return;
+  const card = button.closest('.ikon-destination');
+  const name = card.querySelector('h3').textContent;
+  const location = card.querySelector('.ikon-destination-main p').textContent;
+  if (button.getAttribute('aria-expanded') === 'true') {
+    button.setAttribute('aria-expanded', 'false');
+    document.getElementById(button.getAttribute('aria-controls')).hidden = true;
+    return;
+  }
+  button.textContent = 'HIDE 7-DAY WEATHER FORECAST';
+  loadForecast(button, name, location);
+});
 
 regionTabs.forEach((tab) => tab.addEventListener('click', () => {
   selectedRegion = tab.dataset.regionTab;
