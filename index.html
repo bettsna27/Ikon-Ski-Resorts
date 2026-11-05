@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102b32">
+  <meta name="theme-color" content="#174b61">
   <meta name="description" content="Colorado Ikon Base Pass resort forecasts, route estimates, and mountain reports.">
   <title>Ikon Base Pass Conditions</title>
   <link rel="manifest" href="manifest.webmanifest">
@@ -17,22 +17,15 @@
   <link rel="stylesheet" href="mountain-theme.css">
   <link rel="stylesheet" href="resort-distance.css">
   <link rel="stylesheet" href="ikon-directory.css">
+  <link rel="stylesheet" href="winter-refresh.css?v=1">
   <link rel="stylesheet" href="hero-illustration.css?v=1">
-  <style>
-    .browse-regions-cta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:26px 0;padding:clamp(20px,4vw,32px);border:1px solid #cbd9ce;border-radius:4px 20px 4px 20px;background:linear-gradient(120deg,#e5ede5,#f3f5ef 72%,#e7efe6);box-shadow:0 8px 24px #294b3712}
-    .browse-regions-cta p{margin:0;color:#526b60;font-size:14px;line-height:1.55}
-    .browse-regions-cta strong{display:block;margin-bottom:4px;color:#1b3d33;font-family:var(--display);font-size:clamp(18px,2.4vw,24px)}
-    .browse-regions-cta a{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 20px;border-radius:4px 12px 4px 12px;background:#244a3d;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-decoration:none}
-    .browse-regions-cta a:hover,.browse-regions-cta a:focus-visible{background:#315e4b;color:#fff;outline:2px solid #df8057;outline-offset:3px}
-    @media(max-width:600px){.browse-regions-cta{align-items:stretch;flex-direction:column}.browse-regions-cta a{width:100%}}
-  </style>
   <script src="app.js?v=colorado-resort-forecasts-2" defer></script>
-  <script src="auto-location.js?v=3" defer></script>
-  <script src="ikon-base-directory.js?v=base-pass-regions-1" defer></script>
+  <script src="ikon-base-directory.js?v=regional-forecast-coordinates-1" defer></script>
+  <script src="snowfall-visuals.js?v=1" defer></script>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="./" aria-label="Colorado Ikon Conditions home"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a>
+    <a class="brand" href="#top" aria-label="Colorado Ikon Conditions home"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a>
     <nav aria-label="Main navigation"><a class="pass-link" href="./destinations.html">BROWSE BY REGION <span aria-hidden="true">↗</span></a></nav>
   </header>
   <main id="top">
@@ -47,6 +40,6 @@
     <section class="resort-explorer" aria-label="Colorado resort forecasts"><div class="toolbar"><div><p class="section-kicker">COLORADO · FORECASTS</p><h2 id="local-conditions-heading">Colorado resort forecasts</h2></div></div><div id="resort-tabs" class="resort-tabs" role="tablist" aria-label="Colorado resorts" aria-orientation="horizontal"></div><section id="resort-panel" class="resort-panel" role="tabpanel" aria-live="polite" aria-busy="true"><div class="loading-card">Loading Colorado resort forecasts<span class="loading-dots">...</span></div></section><p id="empty-state" class="empty-state" hidden>No resorts match that search. Try another name.</p></section>
     <section class="how-it-works"><div><p class="section-kicker">FRESH ON EVERY VISIT</p><h2>Plan your next<br>mountain day.</h2></div><p>Choose from Colorado resorts for seven-day snowfall forecasts and estimated base-area conditions. Enter your starting point to see approximate driving distance and time for each resort. Browse all Ikon Base Pass destinations on the <a href="./destinations.html">regional destinations page</a>.</p></section>
   </main>
-  <footer><a class="brand footer-brand" href="./"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a><span>Independent conditions guide · Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · Routes by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a></span><a href="#top">BACK TO TOP ↑</a></footer>
+  <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">▲</span><span>PEAK<span class="brand-light">/</span>CHECK</span></a><span>Independent conditions guide · Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · Routes by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a></span><a href="#top">BACK TO TOP ↑</a></footer>
 </body>
 </html>

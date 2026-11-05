@@ -1,0 +1,38 @@
+/* Winter refresh: glacier blue, deep alpine navy, and bright snow accents. */
+:root{--ink:#122c42;--muted:#60778a;--paper:#edf5fa;--white:#fff;--line:#d3e2ec;--orange:#f28a5d;--green:#9bc9d4;--ice:#b9e8f4;--pine:#174b61;--display:'Space Grotesk',sans-serif;--sans:'DM Sans',sans-serif}
+body{background-color:#edf5fa;background-image:repeating-radial-gradient(ellipse at 4% 19%,transparent 0 34px,#cfdfeb55 35px 36px,transparent 37px 70px);color:var(--ink)}
+.topbar{background:#f7fbf4f2;border-bottom-color:#cfdeea}
+.brand-mark{background:#173f58;color:#d9f3fa}
+.pass-link{color:#254e65}
+.hero:before{background:linear-gradient(115deg,#eef6fa 0%,#eef6fa 43%,#dcebf2 100%)}
+.hero h1 span{color:#3f8196}
+.hero-art{background:linear-gradient(180deg,#9dcbd9 0%,#d9edf1 65%,#edf5fa 100%)}
+.ridge-back{border-bottom-color:#8cbbc9}.ridge-front{border-bottom-color:#265d70}
+.toolbar{border-top-color:#cddde7}.section-kicker{color:#4b7f91}
+.search-wrap{border-bottom-color:#80a8b8}.search-wrap:focus-within{border-bottom-color:#f28a5d}
+.data-note{background:#e2eff4;border-color:#cbdfe8;color:#49687a}
+.origin-picker{border-color:#cfdeea;background:#f7fbfd}
+.origin-submit,.origin-location{background:#1b5268;border-color:#1b5268}.origin-submit:hover,.origin-location:hover{background:#286c80}
+.resort-tab{background:#f8fcfd;border-color:#d0e0e8;color:#385d70}.resort-tab:hover{background:#e7f4f7;border-color:#80b5c3}
+.resort-tab[aria-selected="true"]{background:#174b61;border-color:#174b61;color:#f6fcfd;box-shadow:0 4px 12px #163c4f26}
+.resort-panel{border-color:#d0e0e8;box-shadow:0 10px 28px #234d6014}.detail-header h3{color:#173f58}
+.detail-pass-tag{background:#e2f1f3;color:#326b79}.detail-stat strong,.detail-forecast-day strong{color:#1e6076}
+.detail-forecast-day{background:linear-gradient(155deg,#f3fafb,#e5f1f5)}
+.report-link{border-color:#c8dce4;color:#235e71}.report-link:hover{background:#e2f1f4}.report-dot{background:#56a6a6;box-shadow:0 0 0 4px #56a6a620}
+.browse-regions-cta{border-color:#c5dce5;background:linear-gradient(120deg,#deeff3,#f3f8f6 72%,#e0edf3)}
+.browse-regions-cta p{color:#49687a}.browse-regions-cta strong{color:#173f58}.browse-regions-cta a{background:#174b61}.browse-regions-cta a:hover{background:#24667b}
+.region-tabs .region-tab[aria-selected="true"]{background:#174b61;border-color:#174b61}
+.ikon-destination{border-color:#cbdde6;background:#f8fbfc}.ikon-destination-main h3{color:#173f58}.ikon-access{color:#49687a}
+.destination-forecast-toggle{border-color:#b7d3de;background:#e8f4f6;color:#1b5268}.destination-forecast-toggle:hover,.destination-forecast-toggle:focus-visible{background:#174b61}
+.destination-forecast{border-color:#cfdee7}.destination-forecast-day{background:linear-gradient(155deg,#f2f9fb,#e4f1f5)}.destination-forecast-day strong{color:#1e6076}
+.how-it-works:before{background:linear-gradient(120deg,#deeff3,#f3f8f6 72%,#e0edf3);border-color:#cfdeea}
+footer{background:linear-gradient(115deg,#153f55,#122c42 70%,#1d586a)}
+
+/* Snowfall chart summaries are added only when at least one forecast day predicts snow. */
+.snowfall-visual{display:flex;align-items:center;gap:12px;margin:12px 0;padding:12px 14px;border:1px solid #c4e1e9;border-radius:4px 14px 4px 14px;background:linear-gradient(105deg,#e4f6fa,#f6fbfc);color:#1c566c}
+.snowfall-visual-copy{flex:0 0 auto;min-width:118px}.snowfall-visual-copy strong{display:block;font:700 12px/1.35 var(--sans);color:#174b61}.snowfall-visual-copy span{display:block;margin-top:3px;color:#607b8b;font:10px/1.4 var(--mono)}
+.snowfall-bars{display:grid;grid-template-columns:repeat(7,minmax(18px,1fr));align-items:end;gap:6px;flex:1;min-width:130px;height:42px}.snowfall-bar-day{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;color:#648295;font:9px var(--mono)}
+.snowfall-bar{width:min(100%,18px);height:calc(4px + var(--snowfall-level)*25px);min-height:4px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#81d5e8,#2c8eaa);box-shadow:0 2px 5px #347e9430}.snowfall-bar-day[data-snow="true"] .snowfall-bar{background:linear-gradient(180deg,#a4e8f3,#2587a4)}
+.snowfall-bar-day:not([data-snow="true"]) .snowfall-bar{background:#cfdee5;box-shadow:none}.snowfall-flake{color:#2085a0;font-size:12px;line-height:1}.snowfall-visual[hidden]{display:none}
+@media(max-width:600px){.snowfall-visual{align-items:flex-start;flex-direction:column;gap:8px}.snowfall-bars{width:100%;height:38px}.snowfall-visual-copy{min-width:0}}
+@media(prefers-reduced-motion:no-preference){.snowfall-bar{transition:height .25s ease}}

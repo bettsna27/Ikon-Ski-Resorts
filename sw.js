@@ -1,5 +1,5 @@
-const CACHE_NAME = 'ikon-resorts-shell-v5';
-const APP_SHELL = ['./', './index.html', './destinations.html', './manifest.webmanifest', './styles.css', './resort-tabs.css', './mountain-theme.css', './resort-distance.css', './ikon-directory.css', './hero-illustration.css', './app.js', './auto-location.js', './ikon-base-directory.js', './icons/app-icon.svg'];
+const CACHE_NAME = 'ikon-resorts-shell-v6';
+const APP_SHELL = ['./', './index.html', './destinations.html', './manifest.webmanifest', './styles.css', './resort-tabs.css', './mountain-theme.css', './resort-distance.css', './ikon-directory.css', './winter-refresh.css', './hero-illustration.css', './app.js', './auto-location.js', './ikon-base-directory.js', './snowfall-visuals.js', './icons/app-icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
